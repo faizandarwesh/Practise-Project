@@ -114,37 +114,5 @@ class CameraLandingScreen extends StatelessWidget {
     }
   }
 
-  void checkInternet() async {
-    await HelperFunctions.checkInternetConnection().then((value) {
-      if (value) {
-        //sync data to server
-        print("Sync data to server");
-        reportsBox = Hive.box<DriverReport>(AppConstants.reportsBox);
-
-        mockData.addAll(reportsBox.values.toList() as List<DriverReport>);
-        //mockData.add(mockBox.get("0"));
-        for (DriverReport item in mockData) {
-          print("Items : ${item.thumbnailImage}");
-          filePath = item.thumbnailImage;
-        }
-
-        //mockData.addAll(mockBox.values.toList());
-        // mockData.add(mockBox.values.toList());
-        Get.snackbar(
-          'Internet status',
-          "Connected",
-          snackPosition: SnackPosition.BOTTOM,
-        );
-      } else {
-        //sync data to server
-        print("Save data to local storage");
-        Get.snackbar(
-          'Internet status',
-          "Not Connected",
-          snackPosition: SnackPosition.BOTTOM,
-        );
-      }
-    });
-  }
 }
 

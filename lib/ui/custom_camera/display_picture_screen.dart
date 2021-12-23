@@ -9,12 +9,14 @@ import 'package:get/get.dart';
 import 'package:hive/hive.dart';
 import 'package:image_gallery_saver/image_gallery_saver.dart';
 import 'package:in_app_camera/controller/reports_controller.dart';
+import 'package:in_app_camera/controller/task_controller.dart';
 import 'package:in_app_camera/utils/app_constants.dart';
 import 'package:in_app_camera/utils/cupertino_alert_dialog.dart';
 import 'package:in_app_camera/utils/helper_functions.dart';
 import 'package:map_launcher/map_launcher.dart';
 import 'package:permission_handler/permission_handler.dart';
 
+import '../../main.dart';
 import '../../model/driver_report.dart';
 
 class DisplayPictureScreen extends StatefulWidget {
@@ -41,6 +43,7 @@ class _DisplayPictureScreenState extends State<DisplayPictureScreen> {
   GlobalKey globalKey = GlobalKey();
 
   final _reportsController = Get.find<ReportsController>();
+  final _taskController = Get.find<TaskController>();
 
   @override
   Widget build(BuildContext context) {
@@ -101,22 +104,24 @@ class _DisplayPictureScreenState extends State<DisplayPictureScreen> {
     );
   }
 
-  saveDataToLocalDb(String imagePath) {
+  saveDataToLocalDb(String imagePath,String cameFrom) {
     Box reportsBox = Hive.box<DriverReport>(AppConstants.reportsBox);
 
     reportsBox.put(
-        _reportsController.reportsData.elementAt(widget.index).taskId,
+        mockTasks.elementAt(widget.index).taskId,
         DriverReport(
-            taskId: _reportsController.reportsData.elementAt(widget.index).taskId,
+            taskId:  mockTasks.elementAt(widget.index).taskId,
             driverId: "",
-            barcode: _reportsController.reportsData.elementAt(widget.index).barcode,
+            barcode: _reportsController.reportsData.elementAt(0).barcode,
             driverFullName: "",
             driverType: DriverType.employee.toString(),
-            isUploadedToServer: false,
+            isUploadedToServer: cameFrom == "local" ? false : true,
             taskStatus: TaskStatus.completed.toString(),
-            thumbnailImage: _reportsController.reportsData.elementAt(widget.index).thumbnailImage,
-            answerString: _reportsController.reportsData.elementAt(widget.index).answerString,
-            startingTime: _reportsController.reportsData.elementAt(widget.index).startingTime));
+            thumbnailImage: _reportsController.reportsData.elementAt(0).thumbnailImage,
+            answerString: _reportsController.reportsData.elementAt(0).answerString,
+            startingTime: _reportsController.reportsData.elementAt(0).startingTime));
+
+    _taskController.taskStatusObj.elementAt(widget.index).taskStatus = TaskStatus.completed.toString();
 
     Get.dialog(
         CustomIosDialog(
@@ -162,6 +167,9 @@ class _DisplayPictureScreenState extends State<DisplayPictureScreen> {
           //Send data to server
           print("Sending data to server");
           //mockBox.deleteFromDisk(); //To remove data from box
+
+          saveDataToLocalDb(imagePath,"server");
+
           Get.snackbar(
             'Success',
             "Report submitted to server",
@@ -169,7 +177,7 @@ class _DisplayPictureScreenState extends State<DisplayPictureScreen> {
           );
         }
         else{
-          saveDataToLocalDb(imagePath);
+          saveDataToLocalDb(imagePath,"local");
           Get.snackbar(
             'Image save status',
             "${result['isSuccess']}",

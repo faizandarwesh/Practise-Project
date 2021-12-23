@@ -16,7 +16,7 @@ class AppConstants {
       originLng: 67.0570163,
       destinationLat: 24.8766284,
       destinationLng: 67.0606163,
-      taskStatus: TaskStatus.inProgress.toString());
+      taskStatus: TaskStatus.pending.toString());
 
   //Danish Motors to Cocochan
   final TaskModel taskModel2 = TaskModel(
@@ -34,7 +34,7 @@ class AppConstants {
       originLng: 67.0570163,
       destinationLat: 24.8815172,
       destinationLng: 67.0531295,
-      taskStatus: TaskStatus.pending.toString());
+      taskStatus: TaskStatus.inProgress.toString());
 
 // List<TaskModel> taskModelList = [];
 }

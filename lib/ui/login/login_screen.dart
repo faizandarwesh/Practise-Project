@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:in_app_camera/service/network_status_service.dart';
 import 'package:in_app_camera/ui/home/home_screen.dart';
+import 'package:in_app_camera/utils/custom_widgets/offline_reports_screen.dart';
 import 'package:in_app_camera/utils/network_aware_widget.dart';
 import 'package:provider/provider.dart';
 

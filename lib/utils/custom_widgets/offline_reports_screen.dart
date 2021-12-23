@@ -33,7 +33,7 @@ class _OfflineReportsScreenState extends State<OfflineReportsScreen> {
                           child:
                               Image.file(File(mockData[index].thumbnailImage),fit: BoxFit.cover,),
                         ),
-                        title: Text(mockData[index].driverFullName),
+                        title: Text(mockData[index].taskStatus + mockData[index].answerString + mockData[index].startingTime + mockData[index].isUploadedToServer.toString()),
                         subtitle: Text(mockData[index].barcode));
                   },
                 )

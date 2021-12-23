@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:in_app_camera/controller/reports_controller.dart';
+import 'package:in_app_camera/controller/task_controller.dart';
 import 'package:in_app_camera/model/driver_report.dart';
+import 'package:in_app_camera/model/task_status_model.dart';
 import 'package:in_app_camera/ui/task_screen/scanner_screen.dart';
 import 'package:in_app_camera/utils/app_constants.dart';
 import 'package:intl/intl.dart';
@@ -58,46 +60,6 @@ class TaskLandingScreen extends StatelessWidget {
                 context,
                 MaterialPageRoute(
                     builder: (context) =>  ScannerScreen(index: index,)));
-
-            /*if(mockTasks.elementAt(index).taskStatus == TaskStatus.completed.toString()){
-              await HelperFunctions.checkInternetConnection().then((value) {
-                if (value) {
-                  Get.snackbar(
-                    'Task status',
-                    "Sent to server",
-                    snackPosition: SnackPosition.BOTTOM,
-                  );
-                } else {
-
-                }
-              });
-              Get.snackbar(
-                'Task status',
-                "Save to local storage",
-                snackPosition: SnackPosition.BOTTOM,
-              );
-            }
-            else if(mockTasks.elementAt(index).taskStatus == TaskStatus.inProgress.toString()){
-              Get.snackbar(
-                'Task status',
-                "In Progress",
-                snackPosition: SnackPosition.BOTTOM,
-              );
-            }
-            else if(mockTasks.elementAt(index).taskStatus == TaskStatus.pending.toString()){
-              Get.snackbar(
-                'Task status',
-                "Pending",
-                snackPosition: SnackPosition.BOTTOM,
-              );
-            }
-            else {
-              Get.snackbar(
-                'Task status',
-                "Inside Else",
-                snackPosition: SnackPosition.BOTTOM,
-              );
-            }*/
           }
       ),
       body: SafeArea(
