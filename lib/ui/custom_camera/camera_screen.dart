@@ -8,8 +8,9 @@ import 'package:get/get.dart';
 
 class CameraScreen extends StatefulWidget {
   final List<CameraDescription> cameras;
+  final int index;
 
-  const CameraScreen({required this.cameras, Key? key}) : super(key: key);
+  const CameraScreen({required this.cameras,required this.index, Key? key}) : super(key: key);
 
   @override
   State<CameraScreen> createState() => _CameraScreenState();
@@ -78,9 +79,10 @@ class _CameraScreenState extends State<CameraScreen> {
 
                     file = await controller.takePicture();
                     print("takePicture filePath : ${file.path}");
-                    await Navigator.of(context).push(
+                    await Navigator.of(context).pushReplacement(
                       MaterialPageRoute(
                         builder: (context) => DisplayPictureScreen(
+                            index : widget.index,
                             imagePath: file.path,
                             latitude: lat,
                             longitude: lng,

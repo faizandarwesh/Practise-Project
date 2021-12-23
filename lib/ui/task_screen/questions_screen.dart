@@ -1,8 +1,16 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
+import 'package:in_app_camera/controller/reports_controller.dart';
+import 'package:in_app_camera/model/driver_report.dart';
+import 'package:in_app_camera/ui/custom_camera/camera_landing_screen.dart';
+import 'package:in_app_camera/utils/app_constants.dart';
+import 'package:get/get.dart';
+
+import '../../main.dart';
 
 class QuestionsScreen extends StatefulWidget {
-  const QuestionsScreen({Key? key}) : super(key: key);
+  final int index;
+
+  const QuestionsScreen({required this.index, Key? key}) : super(key: key);
 
   @override
   State<QuestionsScreen> createState() => _QuestionsScreenState();
@@ -10,11 +18,47 @@ class QuestionsScreen extends StatefulWidget {
 
 class _QuestionsScreenState extends State<QuestionsScreen> {
 
-  String _dropDownValue = "";
+
+  final _reportsController = Get.find<ReportsController>();
+
+  String _dropDownValue = 'Quarter full';
+
+
+  @override
+  void initState() {
+    _reportsController.reportsData.elementAt(0).answerString = _dropDownValue;
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
+
+
     return Scaffold(
+      floatingActionButton: FloatingActionButton(
+        child: const Icon(Icons.forward),
+        onPressed: (){
+
+          reportsBox.put(
+              mockTasks.elementAt(widget.index).taskId,
+              DriverReport(
+                  taskId: mockTasks.elementAt(widget.index).taskId,
+                  driverId: '',
+                  barcode:  _reportsController.reportsData.elementAt(0).barcode,
+                  driverFullName: '',
+                  driverType: "Employee",
+                  isUploadedToServer: false,
+                  taskStatus: TaskStatus.inProgress.toString(),
+                  thumbnailImage: '',
+                  answerString:  _reportsController.reportsData.elementAt(0).answerString ,
+                  startingTime:  _reportsController.reportsData.elementAt(0).startingTime));
+
+          Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (context) =>  CameraLandingScreen(index: widget.index,)));
+        },
+      ),
       appBar: AppBar(
         title: const Text("Questionnaire"),
       ),
@@ -45,6 +89,7 @@ class _QuestionsScreenState extends State<QuestionsScreen> {
                     setState(
                           () {
                         _dropDownValue = value!;
+                        _reportsController.reportsData.elementAt(0).answerString = _dropDownValue;
                       },
                     );
                   },
@@ -52,29 +97,6 @@ class _QuestionsScreenState extends State<QuestionsScreen> {
               ),
             ),
             const SizedBox(height: 16,),
-            SizedBox(
-              width: 250,
-              child: ElevatedButton(
-                style: ButtonStyle(
-                  backgroundColor: MaterialStateProperty.all(Colors.blue),
-                  padding: MaterialStateProperty.all(
-                    const EdgeInsets.symmetric(vertical: 13),
-                  ),
-                  textStyle: MaterialStateProperty.all(
-                    GoogleFonts.poppins(
-                      fontSize: 17,
-                      color: Colors.white,
-                      fontWeight: FontWeight.w500,
-                    ),
-                  ),
-                ),
-                onPressed: () async{
-                },
-                child: const Text(
-                  'Submit',
-                ),
-              ),
-            ),
           ],
         )),
       ),

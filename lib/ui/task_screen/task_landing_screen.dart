@@ -1,20 +1,25 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:in_app_camera/ui/custom_camera/camera_landing_screen.dart';
-import 'package:in_app_camera/ui/task_screen/questions_screen.dart';
+import 'package:in_app_camera/controller/reports_controller.dart';
+import 'package:in_app_camera/model/driver_report.dart';
 import 'package:in_app_camera/ui/task_screen/scanner_screen.dart';
 import 'package:in_app_camera/utils/app_constants.dart';
-import 'package:in_app_camera/utils/helper_functions.dart';
+import 'package:intl/intl.dart';
 import 'package:map_launcher/map_launcher.dart';
 import 'package:get/get.dart';
 import '../../main.dart';
 
 class TaskLandingScreen extends StatelessWidget {
-  const TaskLandingScreen({Key? key}) : super(key: key);
+
+  final int index;
+
+  const TaskLandingScreen({required this.index, Key? key}) : super(key: key);
 
 
   @override
   Widget build(BuildContext context) {
+
+    final _reportsController = Get.find<ReportsController>();
 
     return Scaffold(
       appBar: AppBar(
@@ -22,10 +27,39 @@ class TaskLandingScreen extends StatelessWidget {
       ),
       floatingActionButton: FloatingActionButton(
           elevation: 0.0,
-          child:  const Icon(Icons.check),
+          child:   const Icon(Icons.forward),
           backgroundColor: Colors.blue,
-          onPressed: () async{
-            if(mockTasks.elementAt(0).taskStatus == TaskStatus.completed.toString()){
+          onPressed: () {
+
+           var startingTime =  DateFormat(
+                'E, MMM dd, yyyy  h:mm:ss a')
+                .format(DateTime.now());
+
+           var driverReport =  DriverReport(
+               taskId:  mockTasks.elementAt(index).taskId,
+               driverId: '',
+               barcode: "",
+               driverFullName: '',
+               driverType: "Employee",
+               isUploadedToServer: false,
+               taskStatus: TaskStatus.inProgress.toString(),
+               thumbnailImage: '',
+               answerString: '',
+               startingTime: startingTime);
+
+           _reportsController.reportsData.add(driverReport);
+
+           reportsBox.put(
+               mockTasks.elementAt(index).taskId,
+               driverReport
+           );
+
+            Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) =>  ScannerScreen(index: index,)));
+
+            /*if(mockTasks.elementAt(index).taskStatus == TaskStatus.completed.toString()){
               await HelperFunctions.checkInternetConnection().then((value) {
                 if (value) {
                   Get.snackbar(
@@ -43,14 +77,14 @@ class TaskLandingScreen extends StatelessWidget {
                 snackPosition: SnackPosition.BOTTOM,
               );
             }
-            else if(mockTasks.elementAt(0).taskStatus == TaskStatus.inProgress.toString()){
+            else if(mockTasks.elementAt(index).taskStatus == TaskStatus.inProgress.toString()){
               Get.snackbar(
                 'Task status',
                 "In Progress",
                 snackPosition: SnackPosition.BOTTOM,
               );
             }
-            else if(mockTasks.elementAt(0).taskStatus == TaskStatus.pending.toString()){
+            else if(mockTasks.elementAt(index).taskStatus == TaskStatus.pending.toString()){
               Get.snackbar(
                 'Task status',
                 "Pending",
@@ -63,7 +97,7 @@ class TaskLandingScreen extends StatelessWidget {
                 "Inside Else",
                 snackPosition: SnackPosition.BOTTOM,
               );
-            }
+            }*/
           }
       ),
       body: SafeArea(
@@ -72,6 +106,15 @@ class TaskLandingScreen extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               const SizedBox(height: 32,),
+              const Text(
+                'Use Google Maps inorder to reach the destination',
+                textAlign: TextAlign.center,
+              ),
+              Text(
+                'Tap to Navigate',
+                style: Theme.of(context).textTheme.headline4,
+              ),
+              const SizedBox(height: 16,),
               SizedBox(
                 width: 300,
                 child: ElevatedButton(
@@ -96,91 +139,7 @@ class TaskLandingScreen extends StatelessWidget {
                     );
                   },
                   child: const Text(
-                    'Navigate to Google Maps',
-                  ),
-                ),
-              ),
-              const SizedBox(height: 16,),
-              SizedBox(
-                width: 300,
-                child: ElevatedButton(
-                  style: ButtonStyle(
-                    backgroundColor: MaterialStateProperty.all(Colors.blue),
-                    padding: MaterialStateProperty.all(
-                      const EdgeInsets.symmetric(vertical: 13),
-                    ),
-                    textStyle: MaterialStateProperty.all(
-                      GoogleFonts.poppins(
-                        fontSize: 17,
-                        color: Colors.white,
-                        fontWeight: FontWeight.w500,
-                      ),
-                    ),
-                  ),
-                  onPressed: () {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => const ScannerScreen()));
-                  },
-                  child: const Text(
-                    'Scan QR/Barcode Code',
-                  ),
-                ),
-              ),
-              const SizedBox(height: 16,),
-              SizedBox(
-                width: 300,
-                child: ElevatedButton(
-                  style: ButtonStyle(
-                    backgroundColor: MaterialStateProperty.all(Colors.blue),
-                    padding: MaterialStateProperty.all(
-                      const EdgeInsets.symmetric(vertical: 13),
-                    ),
-                    textStyle: MaterialStateProperty.all(
-                      GoogleFonts.poppins(
-                        fontSize: 17,
-                        color: Colors.white,
-                        fontWeight: FontWeight.w500,
-                      ),
-                    ),
-                  ),
-                  onPressed: () async{
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => const QuestionsScreen()));
-                  },
-                  child: const Text(
-                    'Questionnaire',
-                  ),
-                ),
-              ),
-              const SizedBox(height: 16,),
-              SizedBox(
-                width: 300,
-                child: ElevatedButton(
-                  style: ButtonStyle(
-                    backgroundColor: MaterialStateProperty.all(Colors.blue),
-                    padding: MaterialStateProperty.all(
-                      const EdgeInsets.symmetric(vertical: 13),
-                    ),
-                    textStyle: MaterialStateProperty.all(
-                      GoogleFonts.poppins(
-                        fontSize: 17,
-                        color: Colors.white,
-                        fontWeight: FontWeight.w500,
-                      ),
-                    ),
-                  ),
-                  onPressed: () {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => const CameraLandingScreen()));
-                  },
-                  child: const Text(
-                    'Take Bin Picture',
+                    'Open Google Maps',
                   ),
                 ),
               ),

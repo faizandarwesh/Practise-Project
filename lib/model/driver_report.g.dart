@@ -21,17 +21,19 @@ class DriverReportAdapter extends TypeAdapter<DriverReport> {
       driverFullName: fields[1] as String,
       driverId: fields[2] as String,
       driverType: fields[3] as String,
-      barcode: fields[4] as String,
-      thumbnailImage: fields[5] as String,
-      taskStatus: fields[6] as String,
-      isUploadedToServer: fields[7] as bool,
+      startingTime: fields[4] as String,
+      barcode: fields[5] as String,
+      thumbnailImage: fields[6] as String,
+      taskStatus: fields[7] as String,
+      answerString: fields[8] as String,
+      isUploadedToServer: fields[9] as bool,
     );
   }
 
   @override
   void write(BinaryWriter writer, DriverReport obj) {
     writer
-      ..writeByte(8)
+      ..writeByte(10)
       ..writeByte(0)
       ..write(obj.taskId)
       ..writeByte(1)
@@ -41,12 +43,16 @@ class DriverReportAdapter extends TypeAdapter<DriverReport> {
       ..writeByte(3)
       ..write(obj.driverType)
       ..writeByte(4)
-      ..write(obj.barcode)
+      ..write(obj.startingTime)
       ..writeByte(5)
-      ..write(obj.thumbnailImage)
+      ..write(obj.barcode)
       ..writeByte(6)
-      ..write(obj.taskStatus)
+      ..write(obj.thumbnailImage)
       ..writeByte(7)
+      ..write(obj.taskStatus)
+      ..writeByte(8)
+      ..write(obj.answerString)
+      ..writeByte(9)
       ..write(obj.isUploadedToServer);
   }
 

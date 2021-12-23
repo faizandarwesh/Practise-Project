@@ -55,89 +55,92 @@ class _LoginScreenState extends State<LoginScreen> {
                     const SizedBox(height: 20),
                     SizedBox(
                       width: double.infinity,
-                      child: Card(
-                        elevation: 20,
-                        shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(15.0)),
-                        child: Padding(
-                          padding:
-                          const EdgeInsets.symmetric(horizontal: 18, vertical: 20),
-                          child: Column(
-                            mainAxisSize: MainAxisSize.max,
-                            children: [
-                              Text('Enter your credentials',
-                                  style: Theme.of(context).textTheme.bodyText2),
-                              const SizedBox(height: 18),
-                              Container(
-                                decoration: BoxDecoration(
-                                  color: Colors.grey[200],
-                                  borderRadius: BorderRadius.circular(30.0),
-                                ),
-                                child: TextField(
-                                  controller: _emailController,
-                                  enableSuggestions: true,
-                                  autocorrect: false,
-                                  style: const TextStyle(color: Colors.black),
-                                  decoration: const InputDecoration(
-                                      hintText: 'Email',
-                                      hintStyle: TextStyle(color: Colors.black38),
-                                      border: InputBorder.none,
-                                      contentPadding: EdgeInsets.only(left: 20.0)),
-                                ),
-                              ),
-                              const SizedBox(height: 8),
-                              Container(
-                                decoration: BoxDecoration(
-                                  color: Colors.grey[200],
-                                  borderRadius: BorderRadius.circular(30.0),
-                                ),
-                                child: TextField(
-                                  controller: _passwordController,
-                                  obscureText: _obscureText,
-                                  enableSuggestions: false,
-                                  autocorrect: false,
-                                  style: const TextStyle(color: Colors.black),
-                                  decoration: const InputDecoration(
-                                    /*suffixIcon: GestureDetector(
-                                      onTap: () => _toggle(),
-                                      child: SvgPicture.asset(eyeIcon,
-                                          fit: BoxFit.scaleDown),
-                                    ),*/
-                                      hintText: 'Password',
-                                      hintStyle: TextStyle(color: Colors.black38),
-                                      border: InputBorder.none,
-                                      contentPadding: EdgeInsets.only(left: 20.0)),
-                                ),
-                              ),
-                              const SizedBox(height: 8),
-                              SizedBox(
-                                width: double.infinity,
-                                child: TextButton(
-                                  child: Text(
-                                    'Log in',
-                                    style: GoogleFonts.poppins(
-                                        fontSize: 18, color: const Color(0xFF003764)),
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 16),
+                        child: Card(
+                          elevation: 20,
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(15.0)),
+                          child: Padding(
+                            padding:
+                            const EdgeInsets.symmetric(horizontal: 18, vertical: 20),
+                            child: Column(
+                              mainAxisSize: MainAxisSize.max,
+                              children: [
+                                const Text('Enter your credentials',
+                                    style: TextStyle(fontSize: 18)),
+                                const SizedBox(height: 16),
+                                Container(
+                                  decoration: BoxDecoration(
+                                    color: Colors.grey[200],
+                                    borderRadius: BorderRadius.circular(30.0),
                                   ),
-                                  style: ButtonStyle(
-                                      padding: MaterialStateProperty.all(
-                                        const EdgeInsets.symmetric(vertical: 8),
-                                      ),
-                                      shape: MaterialStateProperty.all<
-                                          RoundedRectangleBorder>(
-                                          RoundedRectangleBorder(
-                                              borderRadius: BorderRadius.circular(30.0),
-                                              side: const BorderSide(
-                                                  color: Color(0xFF003764))))),
-                                  onPressed: () {
-                                    Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                            builder: (context) => const HomeScreen()));
-                                  },
+                                  child: TextField(
+                                    controller: _emailController,
+                                    enableSuggestions: true,
+                                    autocorrect: false,
+                                    style: const TextStyle(color: Colors.black),
+                                    decoration: const InputDecoration(
+                                        hintText: 'Email',
+                                        hintStyle: TextStyle(color: Colors.black38),
+                                        border: InputBorder.none,
+                                        contentPadding: EdgeInsets.only(left: 20.0)),
+                                  ),
                                 ),
-                              ),
-                              const SizedBox(height: 8),
-                            ],
+                                const SizedBox(height: 8),
+                                Container(
+                                  decoration: BoxDecoration(
+                                    color: Colors.grey[200],
+                                    borderRadius: BorderRadius.circular(30.0),
+                                  ),
+                                  child: TextField(
+                                    controller: _passwordController,
+                                    obscureText: _obscureText,
+                                    enableSuggestions: false,
+                                    autocorrect: false,
+                                    style: const TextStyle(color: Colors.black),
+                                    decoration: const InputDecoration(
+                                      /*suffixIcon: GestureDetector(
+                                        onTap: () => _toggle(),
+                                        child: SvgPicture.asset(eyeIcon,
+                                            fit: BoxFit.scaleDown),
+                                      ),*/
+                                        hintText: 'Password',
+                                        hintStyle: TextStyle(color: Colors.black38),
+                                        border: InputBorder.none,
+                                        contentPadding: EdgeInsets.only(left: 20.0)),
+                                  ),
+                                ),
+                                const SizedBox(height: 8),
+                                SizedBox(
+                                  width: double.infinity,
+                                  child: TextButton(
+                                    child: Text(
+                                      'Log in',
+                                      style: GoogleFonts.poppins(
+                                          fontSize: 18, color: const Color(0xFF003764)),
+                                    ),
+                                    style: ButtonStyle(
+                                        padding: MaterialStateProperty.all(
+                                          const EdgeInsets.symmetric(vertical: 8),
+                                        ),
+                                        shape: MaterialStateProperty.all<
+                                            RoundedRectangleBorder>(
+                                            RoundedRectangleBorder(
+                                                borderRadius: BorderRadius.circular(30.0),
+                                                side: const BorderSide(
+                                                    color: Color(0xFF003764))))),
+                                    onPressed: () {
+                                      Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (context) => const HomeScreen()));
+                                    },
+                                  ),
+                                ),
+                                const SizedBox(height: 8),
+                              ],
+                            ),
                           ),
                         ),
                       ),

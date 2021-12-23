@@ -2,12 +2,13 @@ import 'dart:io';
 import 'dart:math';
 import 'dart:typed_data';
 import 'dart:ui' as ui;
-
+import 'package:get/get.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:get/get.dart';
 import 'package:hive/hive.dart';
 import 'package:image_gallery_saver/image_gallery_saver.dart';
+import 'package:in_app_camera/controller/reports_controller.dart';
 import 'package:in_app_camera/utils/app_constants.dart';
 import 'package:in_app_camera/utils/cupertino_alert_dialog.dart';
 import 'package:in_app_camera/utils/helper_functions.dart';
@@ -18,6 +19,7 @@ import '../../model/driver_report.dart';
 
 class DisplayPictureScreen extends StatefulWidget {
   final String imagePath;
+  final int index;
   final double? latitude;
   final double? longitude;
   final String? currentTimeStamp;
@@ -25,6 +27,7 @@ class DisplayPictureScreen extends StatefulWidget {
   const DisplayPictureScreen(
       {Key? key,
       required this.imagePath,
+      required this.index,
       this.latitude,
       this.longitude,
       this.currentTimeStamp})
@@ -36,6 +39,8 @@ class DisplayPictureScreen extends StatefulWidget {
 
 class _DisplayPictureScreenState extends State<DisplayPictureScreen> {
   GlobalKey globalKey = GlobalKey();
+
+  final _reportsController = Get.find<ReportsController>();
 
   @override
   Widget build(BuildContext context) {
@@ -98,19 +103,20 @@ class _DisplayPictureScreenState extends State<DisplayPictureScreen> {
 
   saveDataToLocalDb(String imagePath) {
     Box reportsBox = Hive.box<DriverReport>(AppConstants.reportsBox);
-    var random = Random();
 
     reportsBox.put(
-        "${random.nextInt(1000)}",
+        _reportsController.reportsData.elementAt(widget.index).taskId,
         DriverReport(
-            taskId: 3,
-            driverId: "KKAAH",
-            barcode: "${widget.currentTimeStamp}",
-            driverFullName: "${widget.latitude} - ${widget.longitude}",
+            taskId: _reportsController.reportsData.elementAt(widget.index).taskId,
+            driverId: "",
+            barcode: _reportsController.reportsData.elementAt(widget.index).barcode,
+            driverFullName: "",
             driverType: DriverType.employee.toString(),
             isUploadedToServer: false,
             taskStatus: TaskStatus.completed.toString(),
-            thumbnailImage: imagePath));
+            thumbnailImage: _reportsController.reportsData.elementAt(widget.index).thumbnailImage,
+            answerString: _reportsController.reportsData.elementAt(widget.index).answerString,
+            startingTime: _reportsController.reportsData.elementAt(widget.index).startingTime));
 
     Get.dialog(
         CustomIosDialog(
@@ -143,6 +149,10 @@ class _DisplayPictureScreenState extends State<DisplayPictureScreen> {
               isReturnImagePathOfIOS: true);
       print("Stored image path : ${result.toString()}");
       final imagePath = result['filePath'].toString().replaceAll(RegExp('file://'), '');
+
+
+      _reportsController.reportsData.elementAt(0).thumbnailImage = imagePath;
+
       print("Refactored image path : $imagePath");
 
       //Inorder to store imagePath in local DB

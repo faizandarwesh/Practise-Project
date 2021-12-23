@@ -15,62 +15,58 @@ import '../../utils/custom_widgets/maps_web_view.dart';
 import '../../utils/custom_widgets/offline_reports_screen.dart';
 
 
-class CameraLandingScreen extends StatefulWidget {
-  const CameraLandingScreen({Key? key}) : super(key: key);
+class CameraLandingScreen extends StatelessWidget {
+  final int? index;
 
-  @override
-  _CameraLandingScreenState createState() => _CameraLandingScreenState();
-}
-
-class _CameraLandingScreenState extends State<CameraLandingScreen> {
+  const CameraLandingScreen({ this.index, Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text("In App Camera"),
-      ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            const Text(
-              'You have to take picture before the service of bin',
-            ),
-            Text(
-              'Take picture',
-              style: Theme.of(context).textTheme.headline4,
-            ),
-            const SizedBox(
-              height: 32,
-            ),
-            SizedBox(
-              width: 300,
-              child: ElevatedButton(
-                style: ButtonStyle(
-                  backgroundColor: MaterialStateProperty.all(Colors.blue),
-                  padding: MaterialStateProperty.all(
-                    const EdgeInsets.symmetric(vertical: 13),
-                  ),
-                  textStyle: MaterialStateProperty.all(
-                    GoogleFonts.poppins(
-                      fontSize: 17,
-                      color: Colors.white,
-                      fontWeight: FontWeight.w500,
+        appBar: AppBar(
+          title: const Text("In App Camera"),
+        ),
+        body: Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              const Text(
+                'You have to take picture before the service of bin',
+              ),
+              Text(
+                'Take picture',
+                style: Theme.of(context).textTheme.headline4,
+              ),
+              const SizedBox(
+                height: 32,
+              ),
+              SizedBox(
+                width: 300,
+                child: ElevatedButton(
+                  style: ButtonStyle(
+                    backgroundColor: MaterialStateProperty.all(Colors.blue),
+                    padding: MaterialStateProperty.all(
+                      const EdgeInsets.symmetric(vertical: 13),
+                    ),
+                    textStyle: MaterialStateProperty.all(
+                      GoogleFonts.poppins(
+                        fontSize: 17,
+                        color: Colors.white,
+                        fontWeight: FontWeight.w500,
+                      ),
                     ),
                   ),
-                ),
-                onPressed: () {
-                  openCamera(context);
-                },
-                child: const Text(
-                  'Open In App Camera',
+                  onPressed: () {
+                    openCamera(context);
+                  },
+                  child: const Text(
+                    'Open In App Camera',
+                  ),
                 ),
               ),
-            ),
-          ],
-        ),
-      )
+            ],
+          ),
+        )
     );
   }
 
@@ -100,6 +96,7 @@ class _CameraLandingScreenState extends State<CameraLandingScreen> {
               MaterialPageRoute(
                   builder: (context) => CameraScreen(
                     cameras: cameras,
+                    index: index!,
                   )));
         }
         if (_permissionGranted == PermissionStatus.grantedLimited) {
@@ -111,6 +108,7 @@ class _CameraLandingScreenState extends State<CameraLandingScreen> {
             MaterialPageRoute(
                 builder: (context) => CameraScreen(
                   cameras: cameras,
+                  index: index!,
                 )));
       }
     }
@@ -149,3 +147,4 @@ class _CameraLandingScreenState extends State<CameraLandingScreen> {
     });
   }
 }
+

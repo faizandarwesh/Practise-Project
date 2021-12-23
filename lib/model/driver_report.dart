@@ -13,9 +13,11 @@ class DriverReport extends HiveObject {
     required this.driverFullName,
     required this.driverId,
     required this.driverType,
+    required this.startingTime,
     required this.barcode,
     required this.thumbnailImage,
     required this.taskStatus,
+    required this.answerString,
     required this.isUploadedToServer,
   });
 
@@ -28,11 +30,15 @@ class DriverReport extends HiveObject {
   @HiveField(3)
   String driverType;
   @HiveField(4)
-  String barcode;
+  String startingTime;
   @HiveField(5)
-  String thumbnailImage;
+  String barcode;
   @HiveField(6)
-  String taskStatus;
+  String thumbnailImage;
   @HiveField(7)
+  String taskStatus;
+  @HiveField(8)
+  String answerString;
+  @HiveField(9)
   bool isUploadedToServer;
 }

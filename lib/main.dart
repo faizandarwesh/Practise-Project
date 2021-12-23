@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:hive/hive.dart';
+import 'package:in_app_camera/controller/reports_controller.dart';
 import 'package:in_app_camera/model/task_model.dart';
 import 'package:in_app_camera/ui/login/login_screen.dart';
 import 'package:in_app_camera/utils/app_constants.dart';
@@ -42,6 +43,9 @@ void main() async {
   //Initialize Hive boxes
   await Hive.openBox<DriverReport>(AppConstants.reportsBox);
   await Hive.openBox<TaskModel>(AppConstants.taskBox);
+
+  //Register Getx Controller for Driver Report
+  final reportsController = Get.put(ReportsController());
 
   runApp(const MyApp());
 }
