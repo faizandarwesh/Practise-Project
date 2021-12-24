@@ -8,7 +8,6 @@ import 'package:in_app_camera/model/task_model.dart';
 import 'package:in_app_camera/ui/login/login_screen.dart';
 import 'package:in_app_camera/utils/app_constants.dart';
 import 'package:path_provider/path_provider.dart';
-import 'controller/task_controller.dart';
 import 'model/driver_report.dart';
 import 'model/task_model.dart';
 
@@ -47,7 +46,6 @@ void main() async {
 
   //Register Getx Controller for Driver Report
   final reportsController = Get.put(ReportsController());
-  final taskStatusController = Get.put(TaskController());
 
   runApp(const MyApp());
 }

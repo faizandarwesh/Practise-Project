@@ -9,7 +9,7 @@ import 'package:get/get.dart';
 import 'package:hive/hive.dart';
 import 'package:image_gallery_saver/image_gallery_saver.dart';
 import 'package:in_app_camera/controller/reports_controller.dart';
-import 'package:in_app_camera/controller/task_controller.dart';
+import 'package:in_app_camera/model/task_model.dart';
 import 'package:in_app_camera/utils/app_constants.dart';
 import 'package:in_app_camera/utils/cupertino_alert_dialog.dart';
 import 'package:in_app_camera/utils/helper_functions.dart';
@@ -43,7 +43,6 @@ class _DisplayPictureScreenState extends State<DisplayPictureScreen> {
   GlobalKey globalKey = GlobalKey();
 
   final _reportsController = Get.find<ReportsController>();
-  final _taskController = Get.find<TaskController>();
 
   @override
   Widget build(BuildContext context) {
@@ -106,6 +105,7 @@ class _DisplayPictureScreenState extends State<DisplayPictureScreen> {
 
   saveDataToLocalDb(String imagePath,String cameFrom) {
     Box reportsBox = Hive.box<DriverReport>(AppConstants.reportsBox);
+    Box tasksBox = Hive.box<TaskModel>(AppConstants.taskBox);
 
     reportsBox.put(
         mockTasks.elementAt(widget.index).taskId,
@@ -121,7 +121,21 @@ class _DisplayPictureScreenState extends State<DisplayPictureScreen> {
             answerString: _reportsController.reportsData.elementAt(0).answerString,
             startingTime: _reportsController.reportsData.elementAt(0).startingTime));
 
-    _taskController.taskStatusObj.elementAt(widget.index).taskStatus = TaskStatus.completed.toString();
+    //For updating the status of currently assigned task
+    var taskModelCompleted = tasksBox.getAt(widget.index) as TaskModel;
+    taskModelCompleted.taskStatus = TaskStatus.completed.toString();
+
+    tasksBox.putAt(widget.index, taskModelCompleted);
+
+    print("INDEX : ${widget.index}");
+    //For updating the status of next assigned task
+
+    if(widget.index > 0){
+      var taskModelInProgress = tasksBox.getAt(widget.index - 1) as TaskModel;
+      taskModelInProgress.taskStatus = TaskStatus.inProgress.toString();
+
+      tasksBox.putAt(widget.index - 1,taskModelInProgress);
+    }
 
     Get.dialog(
         CustomIosDialog(

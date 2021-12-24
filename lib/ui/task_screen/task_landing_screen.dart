@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:in_app_camera/controller/reports_controller.dart';
-import 'package:in_app_camera/controller/task_controller.dart';
 import 'package:in_app_camera/model/driver_report.dart';
 import 'package:in_app_camera/model/task_status_model.dart';
 import 'package:in_app_camera/ui/task_screen/scanner_screen.dart';

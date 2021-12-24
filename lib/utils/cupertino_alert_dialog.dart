@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:in_app_camera/ui/custom_camera/camera_landing_screen.dart';
+import 'package:in_app_camera/ui/home/home_screen.dart';
 
 import '../main.dart';
 
@@ -25,10 +26,10 @@ class CustomIosDialog extends StatelessWidget {
           isDefaultAction: true,
           child: const Text("Ok"),
           onPressed: () {
-            Navigator.push(
+            Navigator.pushReplacement(
                 context,
                 MaterialPageRoute(
-                    builder: (context) => const CameraLandingScreen()));
+                    builder: (context) => const HomeScreen()));
             if (Get.isDialogOpen!) {
               Get.back();
             } // dismisses only the dialog and returns nothing
