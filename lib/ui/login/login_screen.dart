@@ -23,13 +23,7 @@ class _LoginScreenState extends State<LoginScreen> {
   void initState() {
     _emailController.text = 'test@yopmail.com';
     _passwordController.text = 'admin123';
-    /*Box tasksBox = Hive.box<TaskModel>(AppConstants.taskBox);
-    mockTasks.clear();
-    mockTasks.addAll(tasksBox.values.toList() as List<TaskModel>);
 
-    for (TaskModel item in mockTasks) {
-     print("Status : ${item.taskStatus}");
-    }*/
     super.initState();
   }
 

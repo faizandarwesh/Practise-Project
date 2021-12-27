@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:hive/hive.dart';
 import 'package:in_app_camera/controller/reports_controller.dart';
 import 'package:in_app_camera/model/driver_report.dart';
 import 'package:in_app_camera/ui/custom_camera/camera_landing_screen.dart';
@@ -27,6 +28,11 @@ class _QuestionsScreenState extends State<QuestionsScreen> {
   @override
   void initState() {
     _reportsController.reportsData.elementAt(0).answerString = _dropDownValue;
+    Box reportsBox = Hive.box<DriverReport>(AppConstants.reportsBox);
+    if(reportsBox.length > 0 && _reportsController.reportsData.isNotEmpty) {
+      var report = reportsBox.get(_reportsController.reportsData.elementAt(0).taskId) as DriverReport;
+      _dropDownValue = report.answerString;
+    }
     super.initState();
   }
 
@@ -50,7 +56,7 @@ class _QuestionsScreenState extends State<QuestionsScreen> {
                   isUploadedToServer: false,
                   taskStatus: TaskStatus.inProgress.toString(),
                   thumbnailImage: '',
-                  answerString:  _reportsController.reportsData.elementAt(0).answerString ,
+                  answerString:  _dropDownValue,
                   startingTime:  _reportsController.reportsData.elementAt(0).startingTime));
 
           Navigator.push(

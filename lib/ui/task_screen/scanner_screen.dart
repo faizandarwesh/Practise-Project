@@ -2,8 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
 import 'package:get/get_navigation/src/snackbar/snackbar.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:hive/hive.dart';
 import 'package:in_app_camera/controller/reports_controller.dart';
 import 'package:in_app_camera/model/driver_report.dart';
+import 'package:in_app_camera/model/task_model.dart';
 import 'package:in_app_camera/ui/task_screen/questions_screen.dart';
 import 'package:in_app_camera/utils/app_constants.dart';
 import 'package:get/get.dart';
@@ -129,4 +131,15 @@ class _ScannerScreenState extends State<ScannerScreen> {
     );
   }
 
+  @override
+  void initState() {
+    Box reportsBox = Hive.box<DriverReport>(AppConstants.reportsBox);
+    if(reportsBox.length > 0 && _reportsController.reportsData.isNotEmpty){
+      var report = reportsBox.get(_reportsController.reportsData.elementAt(0).taskId) as DriverReport;
+      barcodeValue =  report.barcode ?? "";
+    }
+
+
+    super.initState();
+  }
 }
