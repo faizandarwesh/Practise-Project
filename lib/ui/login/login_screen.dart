@@ -23,6 +23,13 @@ class _LoginScreenState extends State<LoginScreen> {
   void initState() {
     _emailController.text = 'test@yopmail.com';
     _passwordController.text = 'admin123';
+    /*Box tasksBox = Hive.box<TaskModel>(AppConstants.taskBox);
+    mockTasks.clear();
+    mockTasks.addAll(tasksBox.values.toList() as List<TaskModel>);
+
+    for (TaskModel item in mockTasks) {
+     print("Status : ${item.taskStatus}");
+    }*/
     super.initState();
   }
 
@@ -130,7 +137,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                                 side: const BorderSide(
                                                     color: Color(0xFF003764))))),
                                     onPressed: () {
-                                      Navigator.push(
+                                      Navigator.pushReplacement(
                                           context,
                                           MaterialPageRoute(
                                               builder: (context) => const HomeScreen()));

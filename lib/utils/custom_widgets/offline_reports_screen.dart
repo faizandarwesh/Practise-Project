@@ -1,9 +1,10 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hive/hive.dart';
-import 'package:in_app_camera/model/task_model.dart';
 import 'package:in_app_camera/utils/app_constants.dart';
-import 'dart:io';
+
 import '../../main.dart';
 import '../../model/driver_report.dart';
 

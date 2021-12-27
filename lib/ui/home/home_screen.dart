@@ -2,9 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hive/hive.dart';
-import 'package:in_app_camera/model/driver_report.dart';
 import 'package:in_app_camera/model/task_model.dart';
-import 'package:in_app_camera/model/task_status_model.dart';
 import 'package:in_app_camera/ui/task_screen/task_landing_screen.dart';
 import 'package:in_app_camera/utils/app_constants.dart';
 
@@ -20,6 +18,7 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
 
   bool statusCompleted = false;
+  Box tasksBox = Hive.box<TaskModel>(AppConstants.taskBox);
 
   @override
   Widget build(BuildContext context) {
@@ -61,14 +60,12 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   void initState() {
-    /*tasksBox = Hive.box<TaskModel>(AppConstants.taskBox);
-    tasksBox.put("112233", AppConstants().taskModel1);
+
+   /* tasksBox.put("112233", AppConstants().taskModel1);
     tasksBox.put("223344", AppConstants().taskModel2);
     tasksBox.put("334455", AppConstants().taskModel3);
 
-    mockTasks.addAll(tasksBox.values.toList() as List<TaskModel>);
-*/
-    tasksBox = Hive.box<TaskModel>(AppConstants.taskBox);
+    mockTasks.addAll(tasksBox.values.toList() as List<TaskModel>);*/
 
     mockTasks.clear();
     mockTasks.addAll(tasksBox.values.toList() as List<TaskModel>);

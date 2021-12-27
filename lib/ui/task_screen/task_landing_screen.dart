@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:in_app_camera/controller/reports_controller.dart';
 import 'package:in_app_camera/model/driver_report.dart';
-import 'package:in_app_camera/model/task_status_model.dart';
 import 'package:in_app_camera/ui/task_screen/scanner_screen.dart';
 import 'package:in_app_camera/utils/app_constants.dart';
 import 'package:intl/intl.dart';
 import 'package:map_launcher/map_launcher.dart';
-import 'package:get/get.dart';
+
 import '../../main.dart';
 
 class TaskLandingScreen extends StatelessWidget {

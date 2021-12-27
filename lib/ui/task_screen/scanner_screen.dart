@@ -109,7 +109,7 @@ class _ScannerScreenState extends State<ScannerScreen> {
                       ScanMode.DEFAULT);
 
                   print("BARCODE : $barcodeScanRes");
-                  if(barcodeScanRes.isNotEmpty){
+                  if(barcodeScanRes.isNotEmpty && barcodeScanRes != "-1"){
                    setState(() {
                      barcodeValue = barcodeScanRes;
                      _reportsController.reportsData.elementAt(0).barcode = barcodeValue;

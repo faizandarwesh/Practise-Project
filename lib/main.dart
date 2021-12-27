@@ -13,7 +13,6 @@ import 'model/task_model.dart';
 
 late List<CameraDescription> cameras;
 late Box reportsBox;
-late Box tasksBox;
 var mockData = <DriverReport>[];
 var mockTasks = <TaskModel>[];
 late String filePath;
@@ -45,7 +44,7 @@ void main() async {
   await Hive.openBox<TaskModel>(AppConstants.taskBox);
 
   //Register Getx Controller for Driver Report
-  final reportsController = Get.put(ReportsController());
+  Get.put(ReportsController());
 
   runApp(const MyApp());
 }
