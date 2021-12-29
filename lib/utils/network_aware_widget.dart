@@ -26,6 +26,7 @@ class NetworkAwareWidget extends StatelessWidget {
     }else if(networkStatus == NetworkStatus.online){
       print("Online but local storage is empty");
       _showToastMessage("Online");
+
       return childWidget;
     }
     else {

@@ -27,9 +27,6 @@ void main() async {
   //Inorder to get available Cameras
   cameras = await availableCameras();
 
-  /*//Initialize mock Task Model List
-  AppConstants().taskModelList = [AppConstants().taskModel1,AppConstants().taskModel2,AppConstants().taskModel3];*/
-
   //To get reference of the application package folder
   final document = await getApplicationDocumentsDirectory();
 

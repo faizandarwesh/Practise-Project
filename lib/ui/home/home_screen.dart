@@ -3,8 +3,11 @@ import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hive/hive.dart';
 import 'package:in_app_camera/model/task_model.dart';
+import 'package:in_app_camera/service/network_status_service.dart';
 import 'package:in_app_camera/ui/task_screen/task_landing_screen.dart';
 import 'package:in_app_camera/utils/app_constants.dart';
+import 'package:in_app_camera/utils/network_aware_widget.dart';
+import 'package:provider/provider.dart';
 
 import '../../main.dart';
 
@@ -26,32 +29,39 @@ class _HomeScreenState extends State<HomeScreen> {
       appBar: AppBar(
         title: const Text("Home Screen"),
       ),
-      body: SafeArea(
-        child: Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              const Text(
-                "DRIVER ROUTES",
-                style: TextStyle(fontSize: 22, fontWeight: FontWeight.w500),
-              ),
-              const SizedBox(
-                height: 16,
-              ),
-              Column(
+      body: StreamProvider<NetworkStatus?>(
+        initialData: null,
+        create: (context) =>
+        NetworkStatusService().networkStatusController.stream,
+        child: NetworkAwareWidget(
+          childWidget: SafeArea(
+            child: Center(
+              child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: _createTaskItems(mockTasks.length),
+                children: [
+                  const Text(
+                    "DRIVER ROUTES",
+                    style: TextStyle(fontSize: 22, fontWeight: FontWeight.w500),
+                  ),
+                  const SizedBox(
+                    height: 16,
+                  ),
+                  Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: _createTaskItems(mockTasks.length),
+                  ),
+                  const SizedBox(
+                    height: 32,
+                  ),
+                  statusCompleted ? const Text(
+                    "You have completed all the assigned tasks",
+                   style: TextStyle(fontSize: 18),
+                   textAlign: TextAlign.center,
+                  ) : const Center(),
+                ],
               ),
-              const SizedBox(
-                height: 32,
-              ),
-              statusCompleted ? const Text(
-                "You have completed all the assigned tasks",
-               style: TextStyle(fontSize: 18),
-               textAlign: TextAlign.center,
-              ) : const Center(),
-            ],
+            ),
           ),
         ),
       ),
