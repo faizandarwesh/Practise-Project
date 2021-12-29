@@ -21,6 +21,7 @@ class _QuestionsScreenState extends State<QuestionsScreen> {
 
 
   final _reportsController = Get.find<ReportsController>();
+  late DriverReport reportObj;
 
   String _dropDownValue = 'Quarter full';
 
@@ -29,10 +30,14 @@ class _QuestionsScreenState extends State<QuestionsScreen> {
   void initState() {
     _reportsController.reportsData.elementAt(0).answerString = _dropDownValue;
     Box reportsBox = Hive.box<DriverReport>(AppConstants.reportsBox);
-    if(reportsBox.length > 0 && _reportsController.reportsData.isNotEmpty) {
-      var report = reportsBox.get(_reportsController.reportsData.elementAt(0).taskId) as DriverReport;
-      _dropDownValue = report.answerString;
+    if(reportsBox.get(mockTasks.elementAt(widget.index).taskId) != null) {
+      reportObj = reportsBox.get(mockTasks.elementAt(widget.index).taskId) as DriverReport;
+
+      setState(() {
+        _dropDownValue =  reportObj.answerString.isEmpty ? "Quarter Full" : reportObj.answerString;
+      });
     }
+
     super.initState();
   }
 

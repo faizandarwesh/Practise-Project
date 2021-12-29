@@ -10,17 +10,23 @@ import 'package:map_launcher/map_launcher.dart';
 
 import '../../main.dart';
 
-class TaskLandingScreen extends StatelessWidget {
+class TaskLandingScreen extends StatefulWidget {
 
   final int index;
 
   const TaskLandingScreen({required this.index, Key? key}) : super(key: key);
 
+  @override
+  State<TaskLandingScreen> createState() => _TaskLandingScreenState();
+}
+
+class _TaskLandingScreenState extends State<TaskLandingScreen> {
+
+  final _reportsController = Get.find<ReportsController>();
+  late DriverReport reportObj;
 
   @override
   Widget build(BuildContext context) {
-
-    final _reportsController = Get.find<ReportsController>();
 
     return Scaffold(
       appBar: AppBar(
@@ -37,28 +43,28 @@ class TaskLandingScreen extends StatelessWidget {
                 .format(DateTime.now());
 
            var driverReport =  DriverReport(
-               taskId:  mockTasks.elementAt(index).taskId,
+               taskId:  mockTasks.elementAt(widget.index).taskId,
                driverId: '',
-               barcode: "",
+               barcode: reportsBox.get(mockTasks.elementAt(widget.index).taskId) != null ? reportObj.barcode : '',
                driverFullName: '',
                driverType: "Employee",
                isUploadedToServer: false,
                taskStatus: TaskStatus.inProgress.toString(),
                thumbnailImage: '',
-               answerString: '',
+               answerString: reportsBox.get(mockTasks.elementAt(widget.index).taskId) != null ? reportObj.answerString : '',
                startingTime: startingTime);
 
            _reportsController.reportsData.add(driverReport);
 
            reportsBox.put(
-               mockTasks.elementAt(index).taskId,
+               mockTasks.elementAt(widget.index).taskId,
                driverReport
            );
 
             Navigator.push(
                 context,
                 MaterialPageRoute(
-                    builder: (context) =>  ScannerScreen(index: index,)));
+                    builder: (context) =>  ScannerScreen(index: widget.index,)));
           }
       ),
       body: SafeArea(
@@ -110,5 +116,14 @@ class TaskLandingScreen extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  @override
+  void initState() {
+
+    if(reportsBox.get(mockTasks.elementAt(widget.index).taskId) != null){
+        reportObj = reportsBox.get(mockTasks.elementAt(widget.index).taskId) as DriverReport;
+      }
+    super.initState();
   }
 }

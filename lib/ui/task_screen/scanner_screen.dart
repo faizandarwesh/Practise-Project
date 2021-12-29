@@ -29,6 +29,7 @@ class _ScannerScreenState extends State<ScannerScreen> {
   // ScanMode.QR //Card Image
 
   final _reportsController = Get.find<ReportsController>();
+  late DriverReport reportObj;
 
   String barcodeValue = "";
 
@@ -54,7 +55,7 @@ class _ScannerScreenState extends State<ScannerScreen> {
                     isUploadedToServer: false,
                     taskStatus: TaskStatus.inProgress.toString(),
                     thumbnailImage: '',
-                    answerString: '',
+                    answerString: reportsBox.get(mockTasks.elementAt(widget.index).taskId) != null ? reportObj.answerString : '',
                     startingTime: _reportsController.reportsData.elementAt(0).startingTime));
 
             Navigator.push(
@@ -134,11 +135,13 @@ class _ScannerScreenState extends State<ScannerScreen> {
   @override
   void initState() {
     Box reportsBox = Hive.box<DriverReport>(AppConstants.reportsBox);
-    if(reportsBox.length > 0 && _reportsController.reportsData.isNotEmpty){
-      var report = reportsBox.get(_reportsController.reportsData.elementAt(0).taskId) as DriverReport;
-      barcodeValue =  report.barcode ?? "";
-    }
+    if(reportsBox.get(mockTasks.elementAt(widget.index).taskId) != null){
+       reportObj = reportsBox.get(mockTasks.elementAt(widget.index).taskId,) as DriverReport;
+      setState(() {
+        barcodeValue =  reportObj.barcode ?? "";
+      });
 
+    }
 
     super.initState();
   }
